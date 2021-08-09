@@ -9,6 +9,11 @@ export class CertificateApi extends Resource {
     super();
   }
 
+  get(_: Request, response: Response): void {
+    response.writeHead(200);
+    response.end(JSON.stringify(this.manager.getCertificateList()));
+  }
+
   head(request: Request, response: Response): void {
     const domainInUrl = this.readDomainFromUrl(request.url);
     const domain = this.sanitiseDomain(domainInUrl);
@@ -19,7 +24,7 @@ export class CertificateApi extends Resource {
   }
 
   post(request: Request, response: Response): void | Promise<any> {
-    const { domain, useWildcard, additionalOptions } = request.body as CreateCertificateOptions;
+    const { domain, useWildcard } = request.body as CreateCertificateOptions;
 
     try {
       this.manager.createCertificate({ domain, useWildcard });

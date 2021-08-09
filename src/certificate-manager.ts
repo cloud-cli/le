@@ -1,6 +1,6 @@
-import { existsSync, rmdirSync } from 'fs';
-import { join } from 'path';
 import { spawnSync as sh } from 'child_process';
+import { existsSync, readdirSync, rmdirSync, statSync } from 'fs';
+import { join } from 'path';
 
 const certificatesFolder = process.env.LE_CERTS_DIR || join('etc', 'letsencrypt', 'live');
 
@@ -23,7 +23,11 @@ export class CertificateManager {
   private readonly domainPattern = /^[a-z0-9-.]+$/i;
 
   certificateExists({ domain }: CertificateOptions) {
-    return existsSync(certificatesFolder + domain);
+    if (!this.isValidDomain(domain)) {
+      throw new Error('A domain is required');
+    }
+
+    return existsSync(join(certificatesFolder, domain));
   }
 
   createCertificate({ domain, useWildcard, additionalOptions }: CreateCertificateOptions) {
@@ -31,8 +35,9 @@ export class CertificateManager {
       throw new Error('Invalid domain: ' + domain);
     }
 
-    const domains = [domain, useWildcard ? '*.' + domain : domain].filter(Boolean);
+    const domains = [domain, useWildcard ? '*.' + domain : ''].filter(Boolean);
     const domainsWithPrefix = domains.map((domain) => `-d'${domain}'`);
+
     additionalOptions = (additionalOptions || []).map((option) => `--'${option}'`);
 
     return sh('certbot', ['certonly', '--agree-tos', '--force-renewal', ...additionalOptions, ...domainsWithPrefix]);
@@ -46,7 +51,13 @@ export class CertificateManager {
     }
   }
 
+  getCertificateList(): string[] {
+    return readdirSync(certificatesFolder, { encoding: 'utf-8' }).filter((file) => {
+      return statSync(join(certificatesFolder, file)).isDirectory();
+    });
+  }
+
   private isValidDomain(domain: string) {
-    return domain.length <= 253 && this.domainPattern.test(domain);
+    return domain && String(domain).length <= 253 && this.domainPattern.test(domain);
   }
 }
