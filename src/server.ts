@@ -1,3 +1,3 @@
-import { letsEncrypt } from './index.js';
+import le from './index.js';
 
-letsEncrypt({ port: +process.env.PORT });
+le.start({ port: +process.env.PORT });

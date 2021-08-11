@@ -4,17 +4,26 @@ Lets Encrypt API
 
 #### Usage
 
-```ts
-import { letsEncrypt } from '@cloud-cli/le';
+As a module:
 
-const le = letsEncrypt({
-  port: 4567,
-});
+```ts
+import le from '@cloud-cli/le';
+
+le.start({ port: 4567 });
 
 le.certificateExists({ domain: 'example.com' });
 le.createCertificate({ domain: 'example.com', useWildcard: true });
 le.removeCertificate({ domain: 'example.com' };
 
+```
+
+With Cloudy CLI:
+
+```ts
+import le from '@cloud-cli/le';
+import { cli } from '@cloud-cli/cy';
+
+cli.add('le', le);
 ```
 
 **letsEncrypt() options**
