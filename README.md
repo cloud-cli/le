@@ -26,7 +26,7 @@ import { cli } from '@cloud-cli/cy';
 cli.add('le', le);
 ```
 
-**letsEncrypt() options**
+**start() options**
 
 | Property | Type   | Default     |
 | -------- | ------ | ----------- |

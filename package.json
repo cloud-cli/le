@@ -34,7 +34,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@cloud-cli/gw": "^1.1.2",
-    "redbird": "^0.10.0"
+    "@cloud-cli/gw": "^1.5.0"
   }
 }
