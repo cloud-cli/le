@@ -2,7 +2,7 @@ import { spawnSync as sh } from 'child_process';
 import { existsSync, readdirSync, rmdirSync, statSync } from 'fs';
 import { join } from 'path';
 
-const certificatesFolder = process.env.LE_CERTS_DIR || join('etc', 'letsencrypt', 'live');
+const certificatesFolder = process.env.LE_CERTS_DIR || join('/etc', 'letsencrypt', 'live');
 
 export interface Certificate {
   rootDomain: string;
