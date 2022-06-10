@@ -40,7 +40,7 @@ export class CertificateManager {
 
     additionalOptions = (additionalOptions || []).map((option) => `--'${option}'`);
 
-    return sh('certbot', ['certonly', '--agree-tos', '--force-renewal', ...additionalOptions, ...domainsWithPrefix]);
+    return sh('certbot', ['certonly', ...additionalOptions, ...domainsWithPrefix]);
   }
 
   removeCertificate({ domain }: CertificateOptions) {

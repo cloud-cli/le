@@ -10,7 +10,6 @@ export class CertificateApi extends Resource {
   }
 
   get(_: Request, response: Response): void {
-    response.writeHead(200);
     response.end(JSON.stringify(this.manager.getCertificateList()));
   }
 
