@@ -26,9 +26,14 @@ export class CertificateApi extends Resource {
     const { domain, useWildcard } = request.body as CreateCertificateOptions;
 
     try {
-      this.manager.createCertificate({ domain, useWildcard });
-      response.writeHead(201);
-      response.end();
+      if (this.manager.certificateExists({domain})) {
+        response.writeHead(304);
+      } else {
+        this.manager.createCertificate({ domain, useWildcard });
+        response.writeHead(201);
+      }
+
+      response.end(`Certificate created for ${domain}`);
     } catch (error) {
       response.writeHead(400);
       response.end(error.message);
