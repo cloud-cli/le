@@ -36,7 +36,7 @@ export class CertificateManager {
     }
 
     const domains = [domain, useWildcard ? '*.' + domain : ''].filter(Boolean);
-    const domainsWithPrefix = domains.map((domain) => `-d'${domain}'`);
+    const domainsWithPrefix = domains.map((domain) => `-d${domain}`);
 
     additionalOptions = (additionalOptions || []).map((option) => `--'${option}'`);
 

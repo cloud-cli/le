@@ -14,11 +14,11 @@ export class CommandLineInterface {
   private manager = new CertificateManager();
 
   createCertificate(certificate: CreateCertificateOptions) {
-    this.manager.createCertificate(certificate);
+    return this.manager.createCertificate(certificate);
   }
 
   removeCertificate(options: CertificateOptions) {
-    this.manager.removeCertificate(options);
+    return this.manager.removeCertificate(options);
   }
 
   listCertificates() {
