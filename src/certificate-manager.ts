@@ -35,6 +35,11 @@ export class CertificateManager {
       throw new Error('Invalid domain: ' + domain);
     }
 
+    const path = join(certificatesFolder, domain);
+    if (existsSync(path)) {
+      return 'OK';
+    }
+
     const domains = [domain, useWildcard ? '*.' + domain : ''].filter(Boolean);
     const domainsWithPrefix = domains.map((domain) => `-d${domain}`);
 

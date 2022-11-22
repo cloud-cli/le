@@ -17,7 +17,7 @@ export default {
   },
 
   listCertificates() {
-    return manager.getCertificateList().join('\n');
+    return manager.getCertificateList();
   },
 
   certificateExists(options: CertificateOptions) {
