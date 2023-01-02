@@ -1,10 +1,5 @@
 import { CertificateManager, CertificateOptions, CreateCertificateOptions } from './certificate-manager.js';
 
-export interface LetsEncryptConfiguration {
-  host?: string;
-  port: number;
-}
-
 const  manager = new CertificateManager();
 
 export default {

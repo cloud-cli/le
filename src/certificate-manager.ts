@@ -45,7 +45,12 @@ export class CertificateManager {
 
     additionalOptions = (additionalOptions || []).map((option) => `--'${option}'`);
 
-    return sh('certbot', ['certonly', ...additionalOptions, ...domainsWithPrefix]);
+    const out = sh('certbot', ['certonly', ...additionalOptions, ...domainsWithPrefix]);
+    const stdout = String(out.stdout || '');
+    const stderr = String(out.stderr || '').split('\n').map(s => '! ' + s).join('\n');
+    const logs = stdout + '\n\n' + stderr;
+
+    return out.status !== 0 ? Promise.reject(logs) : Promise.resolve(logs);
   }
 
   removeCertificate({ domain }: CertificateOptions) {
