@@ -1,19 +1,15 @@
-## LE
+# Let's Encrypt certificates
 
-Lets Encrypt API
-
-#### Usage
+## Usage
 
 As a module:
 
 ```ts
 import le from '@cloud-cli/le';
 
-le.start({ port: 4567 });
-
-le.certificateExists({ domain: 'example.com' });
-le.createCertificate({ domain: 'example.com', useWildcard: true });
-le.removeCertificate({ domain: 'example.com' };
+le.exists({ domain: 'example.com' });
+le.add({ domain: 'example.com', useWildcard: true });
+le.remove({ domain: 'example.com' };
 
 ```
 
@@ -26,35 +22,29 @@ import { cli } from '@cloud-cli/cy';
 cli.add('le', le);
 ```
 
-**start() options**
-
-| Property | Type   | Default     |
-| -------- | ------ | ----------- |
-| `host`   | String | '127.0.0.1' |
-| `port`   | Number |             |
-
-#### HTTP API
+## API
 
 **Create a certificate**
 
 ```
-POST /certificates
-
-{
-  "domain": "example.com",
-  "useWildcard": true,
-}
+cy cert.add --domain example.com --useWildcard
 
 ```
 
-**Delete a certificate**
+**Remove a certificate**
 
 ```
-DELETE /certificates/example.com
+cy cert.remove --domain example.com
 ```
 
 **Check if a certificate exists**
 
 ```
-HEAD /certificates/example.com
+cy cert.exists --domain example.com
 ```
+**List certificates**
+
+```
+cy cert.list
+```
+

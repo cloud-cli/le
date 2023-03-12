@@ -3,19 +3,19 @@ import { CertificateManager, CertificateOptions, CreateCertificateOptions } from
 const  manager = new CertificateManager();
 
 export default {
-  createCertificate(certificate: CreateCertificateOptions) {
+  add(certificate: CreateCertificateOptions) {
     return manager.createCertificate(certificate);
   },
 
-  removeCertificate(options: CertificateOptions) {
+  remove(options: CertificateOptions) {
     return manager.removeCertificate(options);
   },
 
-  listCertificates() {
+  list() {
     return manager.getCertificateList();
   },
 
-  certificateExists(options: CertificateOptions) {
+  exists(options: CertificateOptions) {
     return manager.certificateExists(options);
   },
 }
