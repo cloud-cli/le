@@ -43,7 +43,7 @@ export class CertificateManager {
     const domains = [domain, useWildcard ? '*.' + domain : ''].filter(Boolean);
     const domainsWithPrefix = domains.map((domain) => `-d${domain}`);
 
-    additionalOptions = (additionalOptions || []).map((option) => `--'${option}'`);
+    additionalOptions = (additionalOptions || []).map((option) => `--${option}`);
 
     const out = sh('certbot', ['certonly', ...additionalOptions, ...domainsWithPrefix]);
     const stdout = String(out.stdout || '');
