@@ -37,15 +37,12 @@ export class CertificateManager {
 
     const path = join(certificatesFolder, domain);
     if (existsSync(path)) {
-      return 'OK';
+      return true;
     }
 
     const domains = [domain, useWildcard ? '*.' + domain : ''].filter(Boolean);
     const domainsWithPrefix = domains.map((domain) => `-d${domain}`);
-
-    additionalOptions = (additionalOptions || []).map((option) => `--${option}`);
-
-    const out = sh('certbot', ['certonly', ...additionalOptions, ...domainsWithPrefix]);
+    const out = sh('certbot', ['certonly', ...(additionalOptions || []), ...domainsWithPrefix]);
     const stdout = String(out.stdout || '');
     const stderr = String(out.stderr || '').split('\n').map(s => '! ' + s).join('\n');
     const logs = stdout + '\n\n' + stderr;
