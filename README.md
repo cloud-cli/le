@@ -1,50 +1,37 @@
 # Let's Encrypt certificates
 
-## Usage
-
-As a module:
-
-```ts
-import le from '@cloud-cli/le';
-
-le.exists({ domain: 'example.com' });
-le.add({ domain: 'example.com', useWildcard: true });
-le.remove({ domain: 'example.com' };
-
-```
-
-With Cloudy CLI:
-
-```ts
-import le from '@cloud-cli/le';
-import { cli } from '@cloud-cli/cy';
-
-cli.add('le', le);
-```
+SSL certificate generation.
+Requires `certbot` to be installed on server and properly configured for Let's Encrypt certs
 
 ## API
 
-**Create a certificate**
+**Create a certificate for example.com**
 
 ```
-cy cert.add --domain example.com --useWildcard
+cy le.add --domain example.com
+```
 
+**Create a certificate for example.com and all its subdomains**
+
+```
+cy le.add --domain example.com --useWildcard 1
 ```
 
 **Remove a certificate**
 
 ```
-cy cert.remove --domain example.com
+cy le.remove --domain example.com
 ```
 
 **Check if a certificate exists**
 
 ```
-cy cert.exists --domain example.com
+cy le.exists --domain example.com
 ```
-**List certificates**
+
+**List certificates and domains**
 
 ```
-cy cert.list
+cy le.list
 ```
 
