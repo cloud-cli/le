@@ -1,11 +1,11 @@
 name: CICD
 
 on:
-  push:
+  - push
 
 jobs:
   release:
-    uses: homebots/workflows/.github/workflows/node-build-release.yml@master
+    uses: cloud-cli/workflows/.github/workflows/npm-build-release.yml@main
     with:
       build: true
     secrets:

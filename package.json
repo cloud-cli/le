@@ -1,32 +1,19 @@
 {
   "name": "@cloud-cli/le",
   "version": "0.0.0-development",
-  "description": "Reverse Proxy API/module",
+  "description": "LetsEncrypt integration for Cloudy",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "test": "echo true",
-    "xtest": "./node_modules/.bin/ts-node ./node_modules/jasmine/bin/jasmine --config=./jasmine.json",
-    "tdd": "./node_modules/.bin/nodemon -w src -e ts -x ./node_modules/.bin/ts-node ./node_modules/jasmine/bin/jasmine --config=./jasmine.json",
-    "coverage": "./node_modules/.bin/nyc -r html -e .ts -x \"src/**/*.spec.ts\" npm run test",
-    "build": "rm -rf ./dist/* && tsc --project ./tsconfig.json",
-    "start": "node dist/index.js"
+    "build": "rm -rf ./dist/* && tsc"
   },
   "keywords": [
     "cloudy"
   ],
   "license": "MIT",
   "author": "Darlan Alves <me@darlanalv.es>",
-  "devDependencies": {
-    "@types/jasmine": "^3.6.3",
-    "@types/node": "^14.14.31",
-    "jasmine": "^3.6.4",
-    "nodemon": "^2.0.7",
-    "nyc": "^15.1.0",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.1.3"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/cloud-cli/le.git"
@@ -34,7 +21,13 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "@cloud-cli/gw": "^1.5.0"
+  "peerDependencies": {
+    "@cloud-cli/cli": "^2.0.0"
+  },
+  "devDependencies": {
+    "@cloud-cli/typescript-config": "^1.0.1",
+    "@types/node": "^20.12.8",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
   }
 }
