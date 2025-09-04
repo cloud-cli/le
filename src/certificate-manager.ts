@@ -67,6 +67,24 @@ export class CertificateManager {
     });
   }
 
+  getCertificate({ domain }: CertificateOptions) {
+    const pemFile = join(certificatesFolder, domain, 'cert.pem');
+    const out = sh('openssl', ['x509', '-in', pemFile, '-noout', '-text']);
+
+    return out.status !== 0 ? Promise.resolve(out.stdout) : Promise.reject(out.stderr);
+  }
+
+  async getDomainsFromCert({ domain }: CertificateOptions) {
+    const cert = await this.getCertificate({ domain });
+    const line = String(cert).split('\n').find(s => s.includes('DNS:'));
+
+    if (line) {
+      return line.split(',').map(p => p.replace('DNS:', '').trim());
+    }
+
+    return [];
+  }
+
   private isValidDomain(domain: string) {
     return domain && String(domain).length <= 253 && this.domainPattern.test(domain);
   }

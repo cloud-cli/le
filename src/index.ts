@@ -18,4 +18,12 @@ export default {
   exists(options: CertificateOptions) {
     return manager.certificateExists(options);
   },
+
+  show(options: CertificateOptions) {
+    return manager.getCertificate(options);
+  },
+
+  showDomains(options: CertificateOptions) {
+    return manager.getDomainsFromCert(options);
+  }
 }
