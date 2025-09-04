@@ -72,7 +72,7 @@ export class CertificateManager {
     const pemFile = join(certificatesFolder, domain, 'cert.pem');
     const out = sh('openssl', ['x509', '-in', pemFile, '-noout', '-text']);
 
-    return out.status !== 0 ? Promise.resolve(out.stdout) : Promise.reject(out.stderr);
+    return out.status !== 0 ? Promise.resolve(String(out.stdout)) : Promise.reject(String(out.stderr));
   }
 
   async getDomainsFromCert({ domain }: CertificateOptions) {
