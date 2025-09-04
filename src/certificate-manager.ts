@@ -17,6 +17,7 @@ export interface CertificateOptions {
 export interface CreateCertificateOptions extends CertificateOptions {
   useWildcard: boolean;
   additionalOptions?: string[];
+  update: boolean;
 }
 
 export class CertificateManager {
@@ -30,13 +31,13 @@ export class CertificateManager {
     return existsSync(join(certificatesFolder, domain));
   }
 
-  createCertificate({ domain, useWildcard, additionalOptions }: CreateCertificateOptions) {
+  createCertificate({ domain, useWildcard, additionalOptions, update }: CreateCertificateOptions) {
     if (!this.isValidDomain(domain)) {
       throw new Error('Invalid domain: ' + domain);
     }
 
     const path = join(certificatesFolder, domain);
-    if (existsSync(path)) {
+    if (existsSync(path) && !update) {
       return true;
     }
 

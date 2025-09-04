@@ -11,10 +11,10 @@ Requires `certbot` to be installed on server and properly configured for Let's E
 cy le.add --domain example.com
 ```
 
-**Create a certificate for example.com and all its subdomains**
+**Update a certificate with domain example.com and all its subdomains**
 
 ```
-cy le.add --domain example.com --useWildcard 1
+cy le.add --domain example.com --useWildcard 1 --update
 ```
 
 **Remove a certificate**
@@ -29,9 +29,21 @@ cy le.remove --domain example.com
 cy le.exists --domain example.com
 ```
 
-**List certificates and domains**
+**List certificates by domains**
 
 ```
 cy le.list
+```
+
+**Show certificate by domains**
+
+```
+cy le.show --domain example.com
+```
+
+**Show certificate domains**
+
+```
+cy le.showDomains --domain example.com
 ```
 
