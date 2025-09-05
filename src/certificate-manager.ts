@@ -68,11 +68,20 @@ export class CertificateManager {
     });
   }
 
-  getCertificate({ domain }: CertificateOptions) {
+  async getCertificate({ domain }: CertificateOptions) {
     const pemFile = join(certificatesFolder, domain, 'cert.pem');
+
+    if (!existsSync(pemFile)) {
+      throw new Error('Invalid domain: ' + domain);
+    }
+
     const out = sh('openssl', ['x509', '-in', pemFile, '-noout', '-text']);
 
-    return out.status !== 0 ? Promise.resolve(String(out.stdout)) : Promise.reject(String(out.stderr));
+    if (out.status !== 0) {
+      throw new Error(String(out.stderr));
+    }
+
+    return String(out.stdout);
   }
 
   async getDomainsFromCert({ domain }: CertificateOptions) {
