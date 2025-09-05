@@ -33,17 +33,21 @@ export class CertificateManager {
   }
 
   createCertificate({ domain, domains, useWildcard, additionalOptions, update }: CreateCertificateOptions) {
-    if (!this.isValidDomain(domain)) {
-      throw new Error('Invalid domain: ' + domain);
-    }
-
     const path = join(certificatesFolder, domain);
     if (existsSync(path) && !update) {
       return true;
     }
 
-    const $domains = domains ? domains.split(',') : [domain, useWildcard ? '*.' + domain : ''].filter(Boolean);
-    const domainsWithPrefix = $domains.flatMap((domain) => ['-d', domain]);
+    const listOfDomains = domains ? domains.split(',').map(s => s.trim()) : [domain];
+
+    for (const d of listOfDomains) {
+      if (!this.isValidDomain(d)) {
+        throw new Error('Invalid domain: ' + d);
+      }
+    }
+
+    const domainsWithStar = !useWildcard ? listOfDomains : listOfDomains.flatMap(d => [d, '*.' + d]);
+    const domainsWithPrefix = domainsWithStar.flatMap((domain) => ['-d', domain]);
     const out = sh('certbot', ['certonly', ...(additionalOptions || []), ...domainsWithPrefix]);
     const stdout = String(out.stdout || '');
     const stderr = String(out.stderr || '').split('\n').map(s => '! ' + s).join('\n');
