@@ -12,6 +12,7 @@ export interface Certificate {
 
 export interface CertificateOptions {
   domain: string;
+  domains?: string;
 }
 
 export interface CreateCertificateOptions extends CertificateOptions {
@@ -31,7 +32,7 @@ export class CertificateManager {
     return existsSync(join(certificatesFolder, domain));
   }
 
-  createCertificate({ domain, useWildcard, additionalOptions, update }: CreateCertificateOptions) {
+  createCertificate({ domain, domains, useWildcard, additionalOptions, update }: CreateCertificateOptions) {
     if (!this.isValidDomain(domain)) {
       throw new Error('Invalid domain: ' + domain);
     }
@@ -41,8 +42,8 @@ export class CertificateManager {
       return true;
     }
 
-    const domains = [domain, useWildcard ? '*.' + domain : ''].filter(Boolean);
-    const domainsWithPrefix = domains.flatMap((domain) => ['-d', domain]);
+    const $domains = domains ? domains.split(',') : [domain, useWildcard ? '*.' + domain : ''].filter(Boolean);
+    const domainsWithPrefix = $domains.flatMap((domain) => ['-d', domain]);
     const out = sh('certbot', ['certonly', ...(additionalOptions || []), ...domainsWithPrefix]);
     const stdout = String(out.stdout || '');
     const stderr = String(out.stderr || '').split('\n').map(s => '! ' + s).join('\n');
