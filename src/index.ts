@@ -1,10 +1,6 @@
-import {
-  CertificateManager,
-  CertificateOptions,
-  CreateCertificateOptions,
-} from "./certificate-manager.js";
+import { CertificateManager, CertificateOptions, CreateCertificateOptions } from "./certificate-manager.js";
 
-import { help } from '@cloud-cli/cli';
+import { help } from "@cloud-cli/cli";
 
 const manager = new CertificateManager();
 const readDomain = (options) => {
@@ -44,14 +40,17 @@ export default {
   [help]: () => `Manage SSL/TLS certificates
 
 Available commands:
-  le add [domain] - Create a new SSL certificate for a domain
-  le remove [domain] - Remove an existing certificate
-  le list - List all certificates
-  le exists [domain] - Check if a certificate exists
-  le show [domain] - Show certificate details
-  le showDomains - Show domains from certificate
+  le.add --domain <domain> [--domains <comma-separated-domains>] [--useWildcard] [--update] [--additionalOptions <args>] - Create/update a certificate
+  le.remove --domain <domain> - Remove a certificate
+  le.list - List certificates
+  le.exists --domain <domain> - Check whether a certificate exists
+  le.show --domain <domain> - Show certificate details
+  le.showDomains --domain <domain> - Show domains in a certificate
 
 Options:
-  domain - Domain name for the certificate
-  email - Email for Let's Encrypt registration`,
+  domain - Certificate root domain
+  domains - Optional comma-separated domain list
+  useWildcard - Include wildcard names
+  update - Replace an existing certificate
+  additionalOptions - Additional certbot arguments`,
 };
